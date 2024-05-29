@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   jupyterhub:
     build: .
@@ -7,6 +5,7 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
+      - ./data:/data
     environment:
       - JUPYTERHUB_CONFIG=./app/jupyterhub_config.py
     restart: unless-stopped
