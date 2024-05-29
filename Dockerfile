@@ -1,5 +1,5 @@
 # Use the official Python 3.9.12 image as the base image
-FROM python:3.9.12
+FROM --platform=linux/amd64 python:3.9.12
 
 # Set working directory
 WORKDIR /app
