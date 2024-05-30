@@ -32,7 +32,12 @@ RUN pip install jupyterhub
 # Configure JupyterHub
 RUN jupyterhub --generate-config
 
+COPY app/jupyterhub_config.py app/jupyterhub_config.py
+
 # Create a default user
 RUN useradd -m user && echo "user:passwd" | chpasswd
 
 EXPOSE 8000
+
+# Start the JupyterHub server
+CMD ["jupyterhub"]

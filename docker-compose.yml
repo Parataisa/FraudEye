@@ -6,6 +6,4 @@ services:
     volumes:
       - ./app:/app
       - ./data:/data
-    environment:
-      - JUPYTERHUB_CONFIG=./app/jupyterhub_config.py
     restart: unless-stopped
