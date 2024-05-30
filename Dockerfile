@@ -36,5 +36,3 @@ RUN jupyterhub --generate-config
 RUN useradd -m user && echo "user:passwd" | chpasswd
 
 EXPOSE 8000
-# Start the JupyterHub server
-CMD ["jupyterhub", "-f", "./app/jupyterhub_config.py"]
