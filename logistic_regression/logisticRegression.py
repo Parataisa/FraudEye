@@ -7,7 +7,7 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 from sklearn.preprocessing import StandardScaler
 import joblib
 
-path = "./data/mlproject22" if os.path.exists("./data/mlproject22") else "."
+path = "/data/mlproject22" if os.path.exists("/data/mlproject22") else "."
 train_data = pd.read_csv(os.path.join(path, "transactions.csv.zip"))
 X_train = train_data.drop(columns = "Class")
 y_train = train_data["Class"]
