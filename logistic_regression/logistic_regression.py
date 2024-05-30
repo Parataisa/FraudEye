@@ -1,5 +1,9 @@
 import pandas as pd 
 import os 
+import sys 
+# Add the parent directory to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from sklearn.metrics import roc_auc_score 
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -7,10 +11,9 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 from sklearn.preprocessing import StandardScaler
 import joblib
 
-path = "/data/mlproject22" if os.path.exists("/data/mlproject22") else "."
-train_data = pd.read_csv(os.path.join(path, "transactions.csv.zip"))
-X_train = train_data.drop(columns = "Class")
-y_train = train_data["Class"]
+from data.get_data import get_data
+
+X_train, y_train = get_data()
 
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)

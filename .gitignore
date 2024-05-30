@@ -1,3 +1,4 @@
 app/jupyterhub.sqlite
 app/jupyterhub-proxy.pid
 app/jupyterhub_cookie_secret
+__pycache__
