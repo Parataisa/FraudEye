@@ -17,12 +17,13 @@ from networks.neural_network.visualization import plot_metrics
 from networks.neural_network.evaluation import evaluate
 
 class NeuralNetworkTrainer:
-    def __init__(self, net, optimizer, criterion, device, scheduler=None):
+    def __init__(self, net, optimizer, criterion, device, scheduler=None, interval_metric=4):
         self.net = net
         self.optimizer = optimizer
         self.criterion = criterion
         self.device = device
         self.scheduler = scheduler
+        self.interval_metric = interval_metric
 
     def train(self, train_loader, val_loader=None, num_epochs=10):
         self.net.to(self.device)
@@ -50,7 +51,7 @@ class NeuralNetworkTrainer:
                     outputs = self.net(inputs)
                     loss = self.criterion(outputs, labels)
                     loss.backward()
-                    
+
                     torch.nn.utils.clip_grad_norm_(self.net.parameters(), max_norm=1.0)
                     self.optimizer.step()
 
@@ -59,15 +60,15 @@ class NeuralNetworkTrainer:
                     correct += (predictions == labels).sum().item()
                     total += labels.size(0)
                     accuracy = correct / total
-                    train_accuracy = correct / total
 
                     tepoch.set_postfix(loss=loss.item(), accuracy=accuracy)
 
             train_loss /= len(train_loader.dataset)
-
-            if val_loader is not None:
-                metrics = self.evaluate(val_loader)
+            if epoch % self.interval_metric == 0:
                 print(f"Epoch {epoch}, Train Loss: {train_loss:.4f}, Train Acc: {accuracy:.4f}")
+
+            if val_loader is not None and epoch % self.interval_metric == 0:
+                metrics = self.evaluate(val_loader)
                 accuracy_metric.append(metrics['accuracy'])
                 precision.append(metrics['precision'])
                 recall.append(metrics['recall'])
@@ -98,7 +99,7 @@ class NeuralNetworkTrainer:
 
 
 def main():
-    train_loader, test_loader = DataHandler.load_data()
+    train_loader, test_loader = DataHandler.load_data(NUM_EPOCHS)
 
     net = Net(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, NUM_HIDDEN_LAYERS)
     
@@ -107,7 +108,7 @@ def main():
     criterion = nn.BCEWithLogitsLoss()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    trainer = NeuralNetworkTrainer(net, optimizer, criterion, device, scheduler)
+    trainer = NeuralNetworkTrainer(net, optimizer, criterion, device)
     metrics = trainer.train(train_loader, test_loader, NUM_EPOCHS)
     trainer.save_model('./data/models/neural_network_model.pth')
 
