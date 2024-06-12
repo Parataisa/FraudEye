@@ -22,20 +22,22 @@ def predict(model, data, device, batch_size=32, THRESHOLD=0.5):
     predictions = all_outputs > THRESHOLD
     return predictions
 
-def evaluate(model, test_loader, device, BATCH_SIZE=32):
+def evaluate(model, test_loader, device):
+    model.eval()
     X_test = []
     Y_test = []
-    for inputs, labels in test_loader:
-        X_test.extend(inputs.cpu().numpy())
-        Y_test.extend(labels.cpu().numpy())
-    X_test = np.array(X_test)
-    Y_test = np.array(Y_test)
-    y_pred_log_reg = predict(model, X_test, device, BATCH_SIZE)
-    accuracy = accuracy_score(Y_test, y_pred_log_reg)
-    precision = precision_score(Y_test, y_pred_log_reg)
-    recall = recall_score(Y_test, y_pred_log_reg)
-    f1 = f1_score(Y_test, y_pred_log_reg)
-    roc_auc = roc_auc_score(Y_test, y_pred_log_reg)
+    with torch.no_grad():
+        for inputs, labels in test_loader:
+            X_test.append(inputs.cpu().numpy())
+            Y_test.append(labels.cpu().numpy())
+    X_test = np.concatenate(X_test)
+    Y_test = np.concatenate(Y_test)
+    y_pred = predict(model, X_test, device)  # Assuming predict function is defined
+    accuracy = accuracy_score(Y_test, y_pred)
+    precision = precision_score(Y_test, y_pred)
+    recall = recall_score(Y_test, y_pred)
+    f1 = f1_score(Y_test, y_pred)
+    roc_auc = roc_auc_score(Y_test, y_pred)
     metrics = {
         'accuracy': accuracy,
         'precision': precision,
@@ -43,6 +45,7 @@ def evaluate(model, test_loader, device, BATCH_SIZE=32):
         'f1': f1,
         'roc_auc': roc_auc,
     }
-    #print(f"Neural Network Metrics:\n\t Accuracy: {accuracy},\n\t Precision: {precision},\n\t Recall: {recall},\n\t F1 Score: {f1},\n\t ROC-AUC: {roc_auc}")
+    
+    return metrics
     
     return metrics
