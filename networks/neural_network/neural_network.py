@@ -138,4 +138,4 @@ def load_and_evaluate_model():
 if __name__ == "__main__":
     # Uncomment the function you want to run
     train_model()
-    load_and_evaluate_model()
+    #load_and_evaluate_model()
