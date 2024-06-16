@@ -1,18 +1,18 @@
 import os
 import sys
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from tqdm import tqdm
 
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from networks.neural_network.model import Net
-from networks.neural_network.hyperparameter import *
-from networks.neural_network.dataHandler import DataHandler
-from networks.neural_network.visualization import plot_metrics
-from networks.neural_network.evaluation import evaluate
+from model import Net
+from hyperparameter import *
+from dataHandler import DataHandler
+from visualization import plot_metrics
+from evaluation import evaluate, compute_batch_metrics
 
 class NeuralNetworkTrainer:
     def __init__(self, model, optimizer, criterion, device, interval_metric=1):
@@ -25,11 +25,15 @@ class NeuralNetworkTrainer:
     def train(self, train_loader, val_loader=None, num_epochs=10):
         self.net.to(self.device)
 
-        accuracy_metric = []
-        precision = []
-        recall = []
-        f1 = []
-        roc_auc = []
+        epoch_metrics = {
+            'accuracy': [],
+            'precision': [],
+            'recall': [],
+            'f1': [],
+            'roc_auc': []
+        }
+        
+        batch_metrics = []
 
         for epoch in range(1, num_epochs + 1):
             self.net.train()
@@ -56,29 +60,23 @@ class NeuralNetworkTrainer:
                     total += labels.size(0)
                     accuracy = correct / total
 
+                    batch_metric = compute_batch_metrics(self.net, inputs, labels, self.device)
+                    batch_metric['loss'] = loss.item()
+                    batch_metrics.append(batch_metric)
+
                     tepoch.set_postfix(loss=loss.item(), accuracy=accuracy)
 
                 train_loss /= len(train_loader)
-                if val_loader is not None:
+                if val_loader is not None and epoch % self.interval_metric == 0:
                     metrics = self.evaluate(val_loader)
-                    accuracy_metric.append(metrics['accuracy'])
-                    precision.append(metrics['precision'])
-                    recall.append(metrics['recall'])
-                    f1.append(metrics['f1'])
-                    roc_auc.append(metrics['roc_auc'])
-
-                if epoch % self.interval_metric == 0:
+                    epoch_metrics['accuracy'].append(metrics['accuracy'])
+                    epoch_metrics['precision'].append(metrics['precision'])
+                    epoch_metrics['recall'].append(metrics['recall'])
+                    epoch_metrics['f1'].append(metrics['f1'])
+                    epoch_metrics['roc_auc'].append(metrics['roc_auc'])
                     print(f"Epoch {epoch}, Train Loss: {train_loss:.4f}, Train Acc: {accuracy:.4f}")
 
-        metrics = {
-            'accuracy': accuracy_metric,
-            'precision': precision,
-            'recall': recall,
-            'f1': f1,
-            'roc_auc': roc_auc,
-        }
-
-        return metrics
+        return epoch_metrics, batch_metrics
 
     def save_model(self, file_path, metrics):
         torch.save({
@@ -96,7 +94,6 @@ class NeuralNetworkTrainer:
         }, file_path)
 
     def evaluate(self, val_loader):
-        self.net.eval()
         metrics = evaluate(self.net, val_loader, self.device)
         return metrics
 
@@ -110,10 +107,11 @@ def train_model():
     criterion = nn.BCEWithLogitsLoss()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    trainer = NeuralNetworkTrainer(net, optimizer, criterion, device)
-    metrics = trainer.train(train_loader, val_loader, NUM_EPOCHS)
-    trainer.save_model('./data/models/neural_network_model.pth', metrics)
-    plot_metrics(metrics)
+    trainer = NeuralNetworkTrainer(net, optimizer, criterion, device, 5)
+    epoch_metrics, batch_metrics = trainer.train(train_loader, val_loader, NUM_EPOCHS)
+    trainer.save_model('./data/models/neural_network_model.pth', {'epoch_metrics': epoch_metrics, 'batch_metrics': batch_metrics})
+    
+    plot_metrics({'epoch_metrics': epoch_metrics, 'batch_metrics': batch_metrics})
 
 def load_and_evaluate_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -126,13 +124,14 @@ def load_and_evaluate_model():
     net.load_state_dict(checkpoint['model_state_dict'])
     net.to(device)
 
-    metrics = checkpoint['metrics']
+    epoch_metrics = checkpoint['metrics']['epoch_metrics']
+    batch_metrics = checkpoint['metrics']['batch_metrics']
     params = checkpoint['params']
 
-    print(f"Neural Network Metrics:\n\t Accuracy: {metrics['accuracy']},\n\t Precision: {metrics['precision']},\n\t Recall: {metrics['recall']},\n\t F1 Score: {metrics['f1']},\n\t ROC-AUC: {metrics['roc_auc']}")
+    print(f"Neural Network Metrics:\n\t Accuracy: {epoch_metrics['accuracy']},\n\t Precision: {epoch_metrics['precision']},\n\t Recall: {epoch_metrics['recall']},\n\t F1 Score: {epoch_metrics['f1']},\n\t ROC-AUC: {epoch_metrics['roc_auc']}")
     print(f"Parameters:\n\t Input Size: {params['input_size']},\n\t Hidden Size: {params['hidden_size']},\n\t Output Size: {params['output_size']},\n\t Number of Hidden Layers: {params['num_hidden_layers']},\n\t Learning Rate: {params['learning_rate']},\n\t Number of Epochs: {params['num_epochs']}")
 
-    plot_metrics(metrics)
+    plot_metrics({'epoch_metrics': epoch_metrics, 'batch_metrics': batch_metrics})
 
 
 if __name__ == "__main__":
