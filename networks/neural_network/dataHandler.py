@@ -26,7 +26,7 @@ class DataHandler:
         X_test = scaler.transform(X_test)
         
         X_train_resampled, y_train_resampled = DataHandler.oversample_data(
-            np.array(X_train_data), np.array(Y_train_data), fraud_percentage=0.2
+            np.array(X_train_data), np.array(Y_train_data), fraud_percentage=0.4
         )
         
         train_dataset = TensorDataset(

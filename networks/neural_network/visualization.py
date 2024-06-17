@@ -37,8 +37,11 @@ def plot_metrics(metrics):
         batch_indices = list(range(1, num_batches + 1))
 
         for metric in batch_metrics[0].keys():
+            y_values = [bm[metric] for bm in batch_metrics if bm[metric] is not None]
+            batch_indices = list(range(1, len(y_values) + 1))
+            
             ax = axes[metric_idx]
-            ax.plot(batch_indices, [bm[metric] for bm in batch_metrics if bm[metric] is not None], label=metric)
+            ax.plot(batch_indices, y_values, label=metric)
             ax.set_xlabel('Batch')
             ax.set_ylabel(metric)
             ax.legend()

@@ -1,21 +1,24 @@
 import torch.nn as nn
 
 class Net(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, number_of_layers):
+    def __init__(self, input_size, hidden_size, output_size, number_of_layers, dropout_rate=0.0):
         super(Net, self).__init__()
         self.input_size = input_size
+        self.dropout_rate = dropout_rate
 
         layers = []
         layers.append(nn.Linear(input_size, hidden_size))
         layers.append(nn.ReLU())
         if hidden_size > 1:
             layers.append(nn.BatchNorm1d(hidden_size))
+        layers.append(nn.Dropout(self.dropout_rate))
         
         for _ in range(number_of_layers - 1):
             layers.append(nn.Linear(hidden_size, hidden_size))
             layers.append(nn.ReLU())
             if hidden_size > 1:
                 layers.append(nn.BatchNorm1d(hidden_size))
+            layers.append(nn.Dropout(self.dropout_rate))
         
         layers.append(nn.Linear(hidden_size, output_size))
         layers.append(nn.Sigmoid())

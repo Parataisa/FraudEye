@@ -5,7 +5,6 @@ import torch.nn as nn
 import torch.optim as optim
 from tqdm import tqdm
 
-
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from model import Net
@@ -15,12 +14,14 @@ from visualization import plot_metrics
 from evaluation import evaluate, compute_batch_metrics
 
 class NeuralNetworkTrainer:
-    def __init__(self, model, optimizer, criterion, device, interval_metric=1):
+    def __init__(self, model, optimizer, criterion, device, scheduler, interval_metric=1, batch_interval=10):
         self.net = model
         self.optimizer = optimizer
         self.criterion = criterion
         self.device = device
+        self.scheduler = scheduler
         self.interval_metric = interval_metric
+        self.batch_interval = batch_interval
 
     def train(self, train_loader, val_loader=None, num_epochs=10):
         self.net.to(self.device)
@@ -42,7 +43,7 @@ class NeuralNetworkTrainer:
             total = 0
 
             with tqdm(train_loader, unit="batch") as tepoch:
-                for inputs, labels in tepoch:
+                for batch_idx, (inputs, labels) in enumerate(tepoch, start=1):
                     tepoch.set_description(f"Epoch {epoch}")
 
                     inputs = inputs.float().to(self.device)
@@ -60,9 +61,10 @@ class NeuralNetworkTrainer:
                     total += labels.size(0)
                     accuracy = correct / total
 
-                    batch_metric = compute_batch_metrics(self.net, inputs, labels, self.device)
-                    batch_metric['loss'] = loss.item()
-                    batch_metrics.append(batch_metric)
+                    if batch_idx % self.batch_interval == 0:
+                        batch_metric = compute_batch_metrics(self.net, inputs, labels, self.device)
+                        batch_metric['loss'] = loss.item()
+                        batch_metrics.append(batch_metric)
 
                     tepoch.set_postfix(loss=loss.item(), accuracy=accuracy)
 
@@ -75,6 +77,8 @@ class NeuralNetworkTrainer:
                     epoch_metrics['f1'].append(metrics['f1'])
                     epoch_metrics['roc_auc'].append(metrics['roc_auc'])
                     print(f"Epoch {epoch}, Train Loss: {train_loss:.4f}, Train Acc: {accuracy:.4f}")
+
+            self.scheduler.step(train_loss)
 
         return epoch_metrics, batch_metrics
 
@@ -89,7 +93,8 @@ class NeuralNetworkTrainer:
                 'output_size': OUTPUT_SIZE,
                 'num_hidden_layers': NUM_HIDDEN_LAYERS,
                 'learning_rate': LEARNING_RATE,
-                'num_epochs': NUM_EPOCHS
+                'num_epochs': NUM_EPOCHS,
+                'drop_out_rate' : DROP_OUT_RATE
             }
         }, file_path)
 
@@ -101,13 +106,14 @@ class NeuralNetworkTrainer:
 def train_model():
     train_loader, val_loader = DataHandler.load_data(BATCH_SIZE)
 
-    net = Net(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, NUM_HIDDEN_LAYERS)
+    net = Net(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE, NUM_HIDDEN_LAYERS, DROP_OUT_RATE)
     
-    optimizer = optim.Adam(net.parameters(), lr=LEARNING_RATE)
+    optimizer = optim.Adam(net.parameters(), lr=LEARNING_RATE, weight_decay=1e-7)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5, verbose=True)
     criterion = nn.BCEWithLogitsLoss()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    trainer = NeuralNetworkTrainer(net, optimizer, criterion, device, 5)
+    trainer = NeuralNetworkTrainer(net, optimizer, criterion, device, scheduler, interval_metric=1, batch_interval=1000)
     epoch_metrics, batch_metrics = trainer.train(train_loader, val_loader, NUM_EPOCHS)
     trainer.save_model('./data/models/neural_network_model.pth', {'epoch_metrics': epoch_metrics, 'batch_metrics': batch_metrics})
     
@@ -120,7 +126,8 @@ def load_and_evaluate_model():
     net = Net(checkpoint['params']['input_size'], 
               checkpoint['params']['hidden_size'], 
               checkpoint['params']['output_size'], 
-              checkpoint['params']['num_hidden_layers'])
+              checkpoint['params']['num_hidden_layers'],
+              checkpoint['params']['drop_out_rate'])
     net.load_state_dict(checkpoint['model_state_dict'])
     net.to(device)
 
