@@ -36,6 +36,10 @@ class NeuralNetworkTrainer:
         
         batch_metrics = []
 
+        patience = 10
+        best_f1 = 0  
+        patience_counter = 0
+
         for epoch in range(1, num_epochs + 1):
             self.net.train()
             train_loss = 0.0
@@ -78,6 +82,15 @@ class NeuralNetworkTrainer:
                     epoch_metrics['roc_auc'].append(metrics['roc_auc'])
                     print(f"Epoch {epoch}, Train Loss: {train_loss:.4f}, Train Acc: {accuracy:.4f}")
 
+                if metrics['f1'] > best_f1:
+                    best_f1 = metrics['f1']
+                    patience_counter = 0  
+                else:
+                    patience_counter += 1  
+
+                if patience_counter >= patience:
+                    print("Early stopping due to no improvement in F1 score.")
+                    break
             self.scheduler.step(train_loss)
 
         return epoch_metrics, batch_metrics

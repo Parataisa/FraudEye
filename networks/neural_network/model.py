@@ -21,7 +21,6 @@ class Net(nn.Module):
             layers.append(nn.Dropout(self.dropout_rate))
         
         layers.append(nn.Linear(hidden_size, output_size))
-        layers.append(nn.Sigmoid())
         
         self.net = nn.Sequential(*layers)
         self.init_weights()
