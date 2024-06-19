@@ -36,6 +36,10 @@ class NeuralNetworkTrainer:
         
         batch_metrics = []
 
+        patience = 10
+        best_f1 = 0  
+        patience_counter = 0
+
         for epoch in range(1, num_epochs + 1):
             self.net.train()
             train_loss = 0.0
@@ -78,24 +82,27 @@ class NeuralNetworkTrainer:
                     epoch_metrics['roc_auc'].append(metrics['roc_auc'])
                     print(f"Epoch {epoch}, Train Loss: {train_loss:.4f}, Train Acc: {accuracy:.4f}")
 
+                if metrics['f1'] > best_f1:
+                    best_f1 = metrics['f1']
+                    patience_counter = 0  
+                else:
+                    patience_counter += 1  
+
+                if patience_counter >= patience:
+                    print("Early stopping due to no improvement in F1 score.")
+                    break
             self.scheduler.step(train_loss)
 
         return epoch_metrics, batch_metrics
+    def save_model(self, file_path, metrics, params):
+        hyperparameters_str = f"lr_{params['learning_rate']}_epochs_{params['num_epochs']}_input_{params['input_size']}_hidden_{params['hidden_size']}_layers_{params['num_hidden_layers']}_dropout_{params['drop_out_rate']}_output_{params['output_size']}"
+        file_path = f"{file_path}_{hyperparameters_str}.pth"
 
-    def save_model(self, file_path, metrics):
         torch.save({
             'model_state_dict': self.net.state_dict(),
             'optimizer_state_dict': self.optimizer.state_dict(),
             'metrics': metrics,
-            'params': {
-                'input_size': INPUT_SIZE,
-                'hidden_size': HIDDEN_SIZE,
-                'output_size': OUTPUT_SIZE,
-                'num_hidden_layers': NUM_HIDDEN_LAYERS,
-                'learning_rate': LEARNING_RATE,
-                'num_epochs': NUM_EPOCHS,
-                'drop_out_rate' : DROP_OUT_RATE
-            }
+            'params': params
         }, file_path)
 
     def evaluate(self, val_loader):
@@ -115,14 +122,26 @@ def train_model():
     
     trainer = NeuralNetworkTrainer(net, optimizer, criterion, device, scheduler, interval_metric=1, batch_interval=1000)
     epoch_metrics, batch_metrics = trainer.train(train_loader, val_loader, NUM_EPOCHS)
-    trainer.save_model('./data/models/neural_network_model.pth', {'epoch_metrics': epoch_metrics, 'batch_metrics': batch_metrics})
+
+    params = {
+        'input_size': INPUT_SIZE,
+        'hidden_size': HIDDEN_SIZE,
+        'output_size': OUTPUT_SIZE,
+        'num_hidden_layers': NUM_HIDDEN_LAYERS,
+        'learning_rate': LEARNING_RATE,
+        'num_epochs': NUM_EPOCHS,
+        'drop_out_rate' : DROP_OUT_RATE
+    }
+
+    trainer.save_model('./data/models/neural_network_model', {'epoch_metrics': epoch_metrics, 'batch_metrics': batch_metrics}, params)
     
     plot_metrics({'epoch_metrics': epoch_metrics, 'batch_metrics': batch_metrics})
 
 def load_and_evaluate_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model_path = './data/models/neural_network_model_lr_0.001_epochs_40_input_30_hidden_64_layers_3_dropout_0.4_output_1.pth'
 
-    checkpoint = torch.load('./data/models/neural_network_model.pth')
+    checkpoint = torch.load(model_path)
     net = Net(checkpoint['params']['input_size'], 
               checkpoint['params']['hidden_size'], 
               checkpoint['params']['output_size'], 
@@ -143,5 +162,5 @@ def load_and_evaluate_model():
 
 if __name__ == "__main__":
     # Uncomment the function you want to run
-    train_model()
-    #load_and_evaluate_model()
+    #train_model()
+    load_and_evaluate_model()
