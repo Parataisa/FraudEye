@@ -21,21 +21,14 @@ def predict(model, data, device, batch_size=32, THRESHOLD=0.5):
     predictions = all_outputs > THRESHOLD
     return predictions
 
-def evaluate(model, test_loader, device, batch_level=False):
+def evaluate(model, test_loader, device):
     model.eval()
     X_test = []
     Y_test = []
-    metrics_list = []
     with torch.no_grad():
         for inputs, labels in test_loader:
-            if batch_level:
-                batch_metrics = compute_batch_metrics(model, inputs, labels, device)
-                metrics_list.append(batch_metrics)
             X_test.append(inputs.cpu().numpy())
             Y_test.append(labels.cpu().numpy())
-    
-    if batch_level:
-        return metrics_list
 
     X_test = np.concatenate(X_test)
     Y_test = np.concatenate(Y_test)
@@ -46,12 +39,12 @@ def evaluate(model, test_loader, device, batch_level=False):
 
 def compute_metrics(y_true, y_pred):
     accuracy = accuracy_score(y_true, y_pred)
-    precision = precision_score(y_true, y_pred, zero_division=0)
-    recall = recall_score(y_true, y_pred, zero_division=0)
-    f1 = f1_score(y_true, y_pred, zero_division=0)
+    precision = precision_score(y_true, y_pred, zero_division=0, average='weighted')
+    recall = recall_score(y_true, y_pred, zero_division=0, average='weighted')
+    f1 = f1_score(y_true, y_pred, zero_division=0, average='weighted')
     roc_auc = None
     if len(np.unique(y_true)) > 1:  
-        roc_auc = roc_auc_score(y_true, y_pred)
+        roc_auc = roc_auc_score(y_true, y_pred, average='weighted')
     metrics = {
         'accuracy': accuracy,
         'precision': precision,
@@ -59,14 +52,4 @@ def compute_metrics(y_true, y_pred):
         'f1': f1,
         'roc_auc': roc_auc,
     }
-    return metrics
-
-def compute_batch_metrics(model, inputs, labels, device):
-    inputs, labels = inputs.to(device), labels.to(device)
-    logits = model(inputs)
-    outputs = torch.sigmoid(logits).detach()  
-    predictions = outputs.cpu().numpy() > 0.5
-    labels = labels.cpu().numpy()
-
-    metrics = compute_metrics(labels, predictions)
     return metrics

@@ -83,9 +83,9 @@ Introduction to Machine Learning (SS 2024)\\ Programming Project
 \section{Introduction}
 \label{sec:intro}
 
-We selected the Transaction dataset which includes ~22000 Data points each having 30 features(1 Time + 29 other features). The Data were labeled with a 1 if the transaction was fraudulent and 0 if it was not.
-The dataset is highly imbalanced with only 0.xxx\% of the data points being labeled as fraudulent. The nature of the task is a classification problem either a transaction is fraudulent or not.
-The 29 other features are anonymized, and we do not know what they represent. The dataset has no missing values and no data imbalances.
+We selected the Transaction dataset which includes ~227000 Data points each having 30 feature(1 Time + 29 other features). The Data were labeled with a 1 if the transaction was fraudulent and 0 if it was not.
+The dataset is highly imbalanced with only ~0.001729\% of the data points being labeled as fraudulent. The nature of the task is a classification problem either a transaction is fraudulent or not.
+The 29 other features are anonymized, and we do not know what they represent. The dataset has no missing values/features.
 {\color{blue}
 \begin{itemize}
   \item What is the nature of your task (regression/classification)? Is it about classifying types of birds, or deciding the number of cookies an employee receives?
@@ -109,14 +109,14 @@ The 29 other features are anonymized, and we do not know what they represent. Th
 
 \subsection{Preprocessing}
 \label{sec:preprocess}
-Due to the imbalanced nature of the dataset, we used an oversampling technique to balance the dataset. Meaning we duplicated the fraudulent transactions to a certain percentage of the training data. Around 30\%-40\% showed the best results.
+Due to the imbalanced nature of the dataset, we used an oversampling technique to balance the dataset. Meaning we duplicated the fraudulent transactions to a certain percentage of the training data. Around 40\%-50\% showed the best results.
 We tested two different methods, logistic regression, and a neural network because the data were labeled, and the task was a classification problem.
 \subsubsection{Logistic Regression}
 
 \subsubsection{Neural Network}
-We used a neural network with 3 hidden layers and 1 output layer. The input layer has 30 neurons, and all hidden layers have 124 neurons. We used the ReLU activation function for all hidden layers and the sigmoid activation function for the output layer. We used the Adam optimizer and binary cross-entropy as the loss function. Furthermore, we trained the
-model for 40 epochs with a batch size of 32. Because we implemented an early stopping mechanism, the model stopped at most after 18 epochs. We used a dropout layer with a dropout rate of 0.4 to prevent overfitting. For the learning rate, we started with 0.001 and decreased it by a factor of 0.1 if the validation loss did not decrease for 5 epochs.
-For the early stopping mechanism, we used a patience value of 10 epochs. We used the F1 score as the evaluation metric because the dataset is imbalanced.
+We used a neural network with 3 hidden layers and 1 output layer. The input layer has 30 neurons, and all hidden layers have 64 neurons. We used the ReLU activation function for all hidden layers and the sigmoid activation function for the output layer. We used the Adam optimizer and binary cross-entropy as the loss function. Furthermore, we trained the
+model for 40 epochs with a batch size of 64. Because we implemented an early stopping mechanism, the model stopped at most after 24 epochs. We used a dropout layer with a dropout rate of 0.4 to prevent overfitting. For the learning rate, we started with 0.001 and decreased it by a factor of 0.1 if the validation loss did not decrease for 5 epochs.
+For the early stopping mechanism, we used a patience value of 10 epochs. We used the roc-auc score as the evaluation metric for early stopping.
 
 \subsubsection{Choice}
 We chose the neural network over logistic regression because the neural network showed better results. The neural network was able to learn the underlying patterns in the data better than logistic regression.

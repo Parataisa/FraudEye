@@ -4,6 +4,7 @@ import sys
 import torch
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import NearestNeighbors
 from torch.utils.data import TensorDataset, DataLoader
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -30,10 +31,10 @@ class DataHandler:
         )
         
         train_dataset = TensorDataset(
-            torch.from_numpy(X_train_resampled).float(), torch.from_numpy(y_train_resampled).float()
+            torch.from_numpy(X_train_resampled).float(), torch.from_numpy(y_train_resampled).int()
         )
         test_dataset = TensorDataset(
-            torch.from_numpy(X_test).float(), torch.from_numpy(Y_test.values).float() 
+            torch.from_numpy(X_test).float(), torch.from_numpy(Y_test.values).int() 
         )
         
         train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
@@ -45,14 +46,26 @@ class DataHandler:
     def oversample_data(X_train_data, Y_train_data, fraud_percentage):
         fraud_indices = np.where(Y_train_data == 1)[0]
         non_fraud_indices = np.where(Y_train_data == 0)[0]
-        
+
         num_fraud = int(fraud_percentage * len(non_fraud_indices) / (1 - fraud_percentage))
-        oversample_fraud_indices = np.random.choice(fraud_indices, size=num_fraud, replace=True)
-        oversample_indices = np.concatenate([non_fraud_indices, oversample_fraud_indices])
-        
-        X_train_resampled = X_train_data[oversample_indices]
-        y_train_resampled = Y_train_data[oversample_indices]
-        
+
+        knn = NearestNeighbors(n_neighbors=5)
+        knn.fit(X_train_data[fraud_indices])
+        neighbors = knn.kneighbors(return_distance=False)
+
+        oversample_fraud_indices = []
+        for i in range(num_fraud):
+            fraud_idx = np.random.choice(len(fraud_indices))
+            actual_fraud_idx = fraud_indices[fraud_idx]
+            neighbor_idx = neighbors[fraud_idx][np.random.choice(5)]
+            alpha = np.random.random()
+            synthetic_sample = (1 - alpha) * X_train_data[actual_fraud_idx] + alpha * X_train_data[neighbor_idx]
+            oversample_fraud_indices.append(synthetic_sample)
+
+        oversample_fraud_indices = np.array(oversample_fraud_indices)
+        X_train_resampled = np.concatenate([X_train_data, oversample_fraud_indices])
+        y_train_resampled = np.concatenate([Y_train_data, np.ones(len(oversample_fraud_indices))])
+
         return X_train_resampled, y_train_resampled
     
     @staticmethod
