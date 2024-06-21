@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.2)  21 JUN 2024 11:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.2)  21 JUN 2024 12:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -499,6 +499,13 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
 \Hy@SectionHShift=\skip57
+) (C:\Users\fplun\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count309
+\float@exts=\toks35
+\float@box=\box122
+\@float@everytoks=\toks36
+\@floatcapt=\box123
 )
 
 LaTeX Warning: Unused global option(s):
@@ -507,44 +514,44 @@ LaTeX Warning: Unused global option(s):
 (template.aux)
 \openout1 = `template.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
  (C:\Users\fplun\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count309
+\scratchcounter=\count310
 \scratchdimen=\dimen268
-\scratchbox=\box122
-\nofMPsegments=\count310
-\nofMParguments=\count311
-\everyMPshowfont=\toks35
-\MPscratchCnt=\count312
+\scratchbox=\box124
+\nofMPsegments=\count311
+\nofMParguments=\count312
+\everyMPshowfont=\toks37
+\MPscratchCnt=\count313
 \MPscratchDim=\dimen269
-\MPnumerator=\count313
-\makeMPintoPDFobject=\count314
-\everyMPtoPDFconversion=\toks36
+\MPnumerator=\count314
+\makeMPintoPDFobject=\count315
+\everyMPtoPDFconversion=\toks38
 ) (C:\Users\fplun\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (C:\Users\fplun\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 40.
+Package hyperref Info: Link coloring OFF on input line 41.
  (template.out) (template.out)
 \@outlinefile=\write4
 \openout4 = `template.out'.
@@ -557,12 +564,12 @@ LaTeX Warning: No \author given.
 LaTeX Warning: No \author given.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 57--61
+Underfull \hbox (badness 10000) in paragraph at lines 58--62
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--68
+Underfull \hbox (badness 10000) in paragraph at lines 65--69
 
  []
 
@@ -579,18 +586,63 @@ CUTED [output]: 0.0pt
 CUTED [leftcolumn badness]: 0
 CUTED [rightcolumn badness]: 0
 
-Underfull \hbox (badness 2165) in paragraph at lines 82--84
+Underfull \hbox (badness 2165) in paragraph at lines 83--85
 []\OT1/ptm/m/n/10 The dataset is highly im-bal-anced, with only about
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 94.
+(Font)              <8> on input line 161.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 94.
+(Font)              <6> on input line 161.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 161.
+<images/confusion_matrix.png, id=66, 462.528pt x 346.896pt>
+File: images/confusion_matrix.png Graphic file (type png)
+<use images/confusion_matrix.png>
+Package pdftex.def Info: images/confusion_matrix.png  used on input line 170.
+(pdftex.def)             Requested size: 202.3529pt x 151.76662pt.
 [1{C:/Users/fplun/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
 ]
+<images/roc_curve.png, id=79, 462.528pt x 346.896pt>
+File: images/roc_curve.png Graphic file (type png)
+<use images/roc_curve.png>
+Package pdftex.def Info: images/roc_curve.png  used on input line 178.
+(pdftex.def)             Requested size: 177.06458pt x 132.80109pt.
+<images/ml.png, id=81, 722.7pt x 578.16pt>
+File: images/ml.png Graphic file (type png)
+<use images/ml.png>
+Package pdftex.def Info: images/ml.png  used on input line 191.
+(pdftex.def)             Requested size: 177.06458pt x 141.64603pt.
+<images/ml_confusion.png, id=82, 462.528pt x 346.896pt>
+File: images/ml_confusion.png Graphic file (type png)
+<use images/ml_confusion.png>
+Package pdftex.def Info: images/ml_confusion.png  used on input line 197.
+(pdftex.def)             Requested size: 177.06458pt x 132.80109pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 228.
+ [2
+pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.253 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.253 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.253 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.253 
+       <./images/confusion_matrix.png> <./images/roc_curve.png> <./images/ml.png> <./images/ml_confusion.png>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -602,7 +654,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[2
+[3
 
 ] (template.aux)
  ***********
@@ -610,20 +662,20 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-05-08>
  ***********
 Package rerunfilecheck Info: File `template.out' has not changed.
-(rerunfilecheck)             Checksum: 2947F793720658F2AF04937B84A388B2;1347.
+(rerunfilecheck)             Checksum: 68E64CB3320CACB9873F8E25F5CF94CF;1964.
  ) 
 Here is how much of TeX's memory you used:
- 19667 strings out of 474313
- 380111 string characters out of 5739307
- 1950907 words of memory out of 5000000
- 41831 multiletter control sequences out of 15000+600000
- 585291 words of font info for 82 fonts, out of 8000000 for 9000
+ 19801 strings out of 474313
+ 382517 string characters out of 5739307
+ 1952907 words of memory out of 5000000
+ 41946 multiletter control sequences out of 15000+600000
+ 587114 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,9n,107p,527b,462s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on template.pdf (2 pages, 67785 bytes).
+ 101i,10n,107p,527b,462s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on template.pdf (3 pages, 225163 bytes).
 PDF statistics:
- 88 PDF objects out of 1000 (max. 8388607)
- 14 named destinations out of 1000 (max. 500000)
- 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 133 PDF objects out of 1000 (max. 8388607)
+ 23 named destinations out of 1000 (max. 500000)
+ 153 words of extra memory for PDF output out of 10000 (max. 10000000)
 

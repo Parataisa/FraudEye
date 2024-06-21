@@ -26,6 +26,7 @@
 \usepackage{cuted,tcolorbox,lipsum}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{float}
 
 \title{\LARGE \bf
 Introduction to Machine Learning (SS 2024)\\ Programming Project
@@ -88,16 +89,16 @@ machine learning algorithms without additional preprocessing for imputation or s
 \section{Implementation / ML Process}
 \label{sec:methods}
 
-{\color{blue}
+% {\color{blue}
 
-  \begin{itemize}
-    \item Did you need to pre-process the dataset (e.g. augmenting data points, extracting features, reducing the dimensionality, etc.)? If so, describe how you did this.
-    \item Specify the method (e.g. linear regression, or neural network, etc.). You do not have to describe the algorithm in detail, but rather the algorithm family and the properties of the algorithm within that family, e.g. which distance functions for a decision tree, what architecture (layers and activations) for a neural network, etc.
-    \item State (in 2-5 lines) what makes the algorithm you chose suitable for this problem. What are the reasons for choosing your ML method over others?
-    \item If you used a method that was not covered in the VO, describe how it is different from the closest method described in the VO.
-    \item How did you choose hyperparameters (other design choices) and what are the values of the hyperparameters you chose for your final model? How did you make sure that the choice of hyperparameters works well?
-  \end{itemize}
-}
+%   \begin{itemize}
+%     \item Did you need to pre-process the dataset (e.g. augmenting data points, extracting features, reducing the dimensionality, etc.)? If so, describe how you did this.
+%     \item Specify the method (e.g. linear regression, or neural network, etc.). You do not have to describe the algorithm in detail, but rather the algorithm family and the properties of the algorithm within that family, e.g. which distance functions for a decision tree, what architecture (layers and activations) for a neural network, etc.
+%     \item State (in 2-5 lines) what makes the algorithm you chose suitable for this problem. What are the reasons for choosing your ML method over others?
+%     \item If you used a method that was not covered in the VO, describe how it is different from the closest method described in the VO.
+%     \item How did you choose hyperparameters (other design choices) and what are the values of the hyperparameters you chose for your final model? How did you make sure that the choice of hyperparameters works well?
+%   \end{itemize}
+% }
 
 \subsection{Preprocessing}
 \label{sec:preprocess}
@@ -112,12 +113,9 @@ This model estimates the probability that a given input belongs to a particular 
 
 \subsubsection{Hyperparameters}
 We use completely standard hyperparameters without any fine tuning.
-We tried some different solvers and maximumt iterations but the outcome didn't change much. >
+We tried some different solvers and maximumt iterations but the outcome didn't change much.
 The hyperparameters we used are:
-\begin{itemize}
-  \item Solver: lbfgs
-  \item Max iterations: 100
-\end{itemize}
+Solver: lbfgs, Max iterations: 100
 The biggest impact on the performance was the oversampling.
 
 \subsubsection{Model Description}
@@ -125,43 +123,101 @@ Logistic regression operates by applying the logistic function to a linear combi
 This probability is then used to classify the input into one of the two classes. Given its simplicity and ease of implementation, logistic regression serves
 as an effective starting point for classification problems.
 
+\subsection{Neural Network(MLP)}
+MLPs are a class of feedforward neural networks that consist of multiple layers of neurons, each layer fully connected to the next. With the ability to learn complex patterns
+in the data, MLPs are well-suited for classification tasks. Espacially for the given dataset, which has 30 features, a neural network can learn the complex patterns in the data and classify the data into the two classes.
 
+\subsubsection{Hyperparameters}
+For the neural network model, we used 3 hidden layers with 256 neurons each, and a initial learning rate of 0.0001. We trained the model for 40 epochs with a batch size of 128.
 
-\subsection{Neural Network}
-We used a neural network with 3 hidden layers and 1 output layer. The input layer has 30 neurons, and all hidden layers have 64 neurons. We used the ReLU activation function for all hidden layers and the sigmoid activation function for the output layer. We used the Adam optimizer and binary cross-entropy as the loss function. Furthermore, we trained the
-model for 40 epochs with a batch size of 64. Because we implemented an early stopping mechanism, the model stopped at most after 24 epochs. We used a dropout layer with a dropout rate of 0.4 to prevent overfitting. For the learning rate, we started with 0.001 and decreased it by a factor of 0.1 if the validation loss did not decrease for 5 epochs.
-For the early stopping mechanism, we used a patience value of 10 epochs. We used the roc-auc score as the evaluation metric for early stopping.
-
-\subsection{Choice}
-We chose the neural network over logistic regression because the neural network showed better results. The neural network was able to learn the underlying patterns in the data better than logistic regression.
-See the \hyperref[sec:results]{Results'} section for more details.
+\subsubsection{Model Description}
+In our neural network model, we used some additional methods to prevent overfitting(e.g. dropout), and some learning rate optimization techniques(e.g. scheudler). The dropout method is used to prevent overfitting by randomly
+setting a fraction of the input units to 0 at each update during training time, which helps to prevent the model from memorizing the training data. The learning rate scheduler is used to adjust the learning rate during training,
+which can speed up the training process and improve the model's performance. We used a early stopping callback to stop the training process when the model's performance stops improving.
 
 \section{Results}
 \label{sec:results}
 
-{\color{blue}
+% {\color{blue}
 
-  \begin{itemize}
-    \item Describe the performance of your model (in terms of the metrics for your dataset) on the training and validation sets with the help of plots or/and tables.
-    \item You must provide at least two separate visualizations
-          (plot or tables) of different things, i.e. don’t use a table
-          and a bar plot of the same metrics. At least three
-          visualizations are required for the 3 person team.
-  \end{itemize}
-}
+%   \begin{itemize}
+%     \item Describe the performance of your model (in terms of the metrics for your dataset) on the training and validation sets with the help of plots or/and tables.
+%     \item You must provide at least two separate visualizations
+%           (plot or tables) of different things, i.e. don’t use a table
+%           and a bar plot of the same metrics. At least three
+%           visualizations are required for the 3 person team.
+%   \end{itemize}
+% }
+
+Scores with validation set
+\begin{center}
+  \begin{table}[!h]
+    \resizebox{0.45\textwidth}{!}{
+      \begin{tabular}{l|c|c|c|c|c}
+        Model               & Accuracy & Precision & Recall   & F1-Score & ROC-AUC  \\\hline
+        Logistic Regression & $0.9990$ & $0.9990$  & $0.9984$ & $0.9986$ & $0.9486$ \\\hline
+        Neural Network      & $0.9989$ & $0.9991$  & $0.9989$ & $0.9990$ & $0.9237$ \\
+      \end{tabular}
+    }
+
+  \end{table}
+\end{center}
+
+
+\subsection{Logistic Regression}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{images/confusion_matrix.png}
+  \caption{Conusion Matrix}
+  \label{fig:lr-confusion}
+\end{figure}
+As you can see in the confusion matrix \ref{fig:lr-confusion} the model predicts 94\% of all fraud cases correctly and only has a false positive rate of 0.1431\%.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.35\textwidth]{images/roc_curve.png}
+  \caption{ROC-Curve}
+  \label{fig:lr-roc}
+\end{figure}
+% The ROC () curve is a graphical representation of a classifier's performance across all classification thresholds.
+% It plots the True Positive Rate (sensitivity) against the False Positive Rate (1-specificity).
+% The area under the ROC curve (AUC) is a measure of the model's ability to distinguish between classes, with an AUC of 1.0 representing a perfect classifier.
+In the provided ROC curve \ref{fig:lr-roc}, the model demonstrates a high performance with an AUC of 0.98, indicating excellent discrimination ability.
+
+
+\subsection{Neural Network}
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.35\textwidth]{images/ml.png}
+  \caption{ML-Metrics}
+  \label{fig:ml}
+\end{figure}
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.35\textwidth]{images/ml_confusion.png}
+  \caption{Confusion Matrix}
+  \label{fig:ml-confusion}
+\end{figure}
+
 
 \section{Discussion}
 \label{sec:discuss}
 
-{\color{blue}
-  \begin{itemize}
-    \item Analyze the results presented in the report (comment on what contributed to the good or bad results). If your method does not work well, try to analyze why this is the case.
-    \item Describe very briefly what you tried but did not keep for your final implementation (e.g. things you tried but that did not work, discarded ideas, etc.).
-    \item How could you try to improve your results? What else would you want to try?
+% {\color{blue}
+%   \begin{itemize}
+%     \item Analyze the results presented in the report (comment on what contributed to the good or bad results). If your method does not work well, try to analyze why this is the case.
+%     \item Describe very briefly what you tried but did not keep for your final implementation (e.g. things you tried but that did not work, discarded ideas, etc.).
+%     \item How could you try to improve your results? What else would you want to try?
 
-  \end{itemize}
-}
+%   \end{itemize}
+% }
 
+The results of both models are quite good, with all the metrics being above 0.95\%. Over all the main bottleneck of the project was the imbalanced dataset. The oversampling technique helped to improve the results of the models. But thoese data are still only synthetic data and can't replace real data.
+For the neural network model, we try to use some additional methods to prevent overfitting(e.g. dropout, and weight decay), which we discarded in the final implementation. For the logistic regression model, we tried some different solvers and maximum iterations, but the outcome didn't change much.
+
+\subsection{Choice}
+Both of the models show similar results when it comes to classify give data into the two classes. The logistic regression model is easier to implement and faster to train. The neural network model is more complex and takes longer to train. The neural network model has more hyperparameters to tune, which can lead to better results if tuned correctly.
+The logistic regression model is a good starting point for binary classification tasks, and the neural network model is a more advanced model that can achieve better results with the right hyperparameters. So we decided to use the logistic regression model as our Model for the final implementation.
 
 \section{Conclusion}
 \label{sec:con}
@@ -176,6 +232,23 @@ See the \hyperref[sec:results]{Results'} section for more details.
 
 }
 
+\begin{center}
+  \begin{table}[!h]
+    \resizebox{0.45\textwidth}{!}{
+      \begin{tabular}{l|c|c|c|c|c}
+        Model               & Train Dataset Score & Test Dataset Score \\\hline
+        Logistic Regression & $0.5888$            & $0.5625$           \\\hline
+        Neural Network      & $0.5873$                    & $0.5595$                  \\
+      \end{tabular}
+    }
+
+  \end{table}
+\end{center}
+In this project, we explored the performance of two machine learning models—Logistic Regression and a Neural Network—on a highly imbalanced transaction dataset aimed at detecting fraudulent transactions.
+Both models demonstrated high accuracy and excellent ROC-AUC scores, with Logistic Regression achieving a ROC-AUC of 0.9486 and the Neural Network achieving a ROC-AUC of 0.9362. Despite the imbalanced nature of the dataset,
+the oversampling technique significantly improved model performance by generating synthetic samples for the minority class. Although the Logistic Regression model was simpler and faster to train, the Neural Network's capacity to
+learn complex patterns suggests potential for further optimization. The primary takeaway is that while simpler models can yield robust performance with appropriate preprocessing, advanced models like Neural Networks offer room for improvement,
+especially with fine-tuning and additional techniques to handle data imbalance.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

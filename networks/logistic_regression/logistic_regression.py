@@ -68,13 +68,15 @@ def train_and_evaluate():
 
     # metrics
     accuracy_log_reg = accuracy_score(Y_test, y_pred)
-    precision_log_reg = precision_score(Y_test, y_pred)
+    precision_log_reg = precision_score(Y_test, y_pred, average="weighted")
     recall_log_reg = recall_score(
         Y_test,
         y_pred,
+        average="weighted"
     )
-    f1_log_reg = f1_score(Y_test, y_pred)
-    roc_auc_log_reg = roc_auc_score(Y_test, y_pred)
+    f1_log_reg = f1_score(Y_test, y_pred, average="weighted")
+    roc_auc_log_reg = roc_auc_score(Y_test, y_pred, average="weighted")
+
 
     print(
         f"logistic regression metrics: accuracy: {accuracy_log_reg}, precision: {precision_log_reg}, recall: {recall_log_reg}, f1 score: {f1_log_reg}, roc-auc: {roc_auc_log_reg}"
