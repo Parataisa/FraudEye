@@ -83,8 +83,7 @@ marked with a 1 if it is fraudulent and 0 if it is not, making the task a binary
 The dataset is highly imbalanced, with only about 0.001729\% of the data points labeled as fraudulent. This extreme imbalance poses a significant challenge for the classification task, as the model may become
 biased towards predicting the majority class (non-fraudulent transactions).
 
-The 28 other features are anonymized, and their exact meanings are unknown. However, these features do not contain any missing values, ensuring that each feature is ready for use in
-machine learning algorithms without additional preprocessing for imputation or scaling.
+The 28 other features are anonymized, and their exact meanings are unknown. However, these features do not contain any missing values.
 
 \section{Implementation / ML Process}
 \label{sec:methods}
@@ -131,9 +130,8 @@ in the data, MLPs are well-suited for classification tasks. Espacially for the g
 For the neural network model, we used 3 hidden layers with 256 neurons each, and a initial learning rate of 0.0001. We trained the model for 40 epochs with a batch size of 128.
 
 \subsubsection{Model Description}
-In our neural network model, we used some additional methods to prevent overfitting(e.g. dropout), and some learning rate optimization techniques(e.g. scheudler). The dropout method is used to prevent overfitting by randomly
-setting a fraction of the input units to 0 at each update during training time, which helps to prevent the model from memorizing the training data. The learning rate scheduler is used to adjust the learning rate during training,
-which can speed up the training process and improve the model's performance. We used a early stopping callback to stop the training process when the model's performance stops improving.
+In our neural network model, we used a learning rate optimization techniques(e.g. scheudler). The learning rate scheduler is used to adjust the learning rate during training,
+which can speed up the training process and improve the model's performance. We used a early stopping to stop the training process when the model's performance stops improving.
 
 \section{Results}
 \label{sec:results}
@@ -167,7 +165,7 @@ Scores with validation set
 \subsection{Logistic Regression}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.4\textwidth]{images/confusion_matrix.png}
+  \includegraphics[width=0.35\textwidth]{images/confusion_matrix.png}
   \caption{Conusion Matrix}
   \label{fig:lr-confusion}
 \end{figure}
@@ -184,20 +182,21 @@ As you can see in the confusion matrix \ref{fig:lr-confusion} the model predicts
 % The area under the ROC curve (AUC) is a measure of the model's ability to distinguish between classes, with an AUC of 1.0 representing a perfect classifier.
 In the provided ROC curve \ref{fig:lr-roc}, the model demonstrates a high performance with an AUC of 0.98, indicating excellent discrimination ability.
 
-
 \subsection{Neural Network}
-\begin{figure}[!htb]
-  \centering
-  \includegraphics[width=0.35\textwidth]{images/ml.png}
-  \caption{ML-Metrics}
-  \label{fig:ml}
-\end{figure}
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.35\textwidth]{images/ml_confusion.png}
   \caption{Confusion Matrix}
   \label{fig:ml-confusion}
 \end{figure}
+As you can see in the confusion matrix \ref{fig:ml-confusion} is quite similar to the confusion matrix of the logistic regression model.
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.35\textwidth]{images/ml.png}
+  \caption{ML-Metrics}
+  \label{fig:ml}
+\end{figure}
+As you can see over time the model gets better and better, in each metric. With some more epochs, and fine tuning of the hyperparameters, the model could achieve even better results.
 
 
 \section{Discussion}
@@ -222,15 +221,15 @@ The logistic regression model is a good starting point for binary classification
 \section{Conclusion}
 \label{sec:con}
 
-{\color{blue}
+% {\color{blue}
 
-  \begin{itemize}
-    \item Finally, describe the test-set performance you achieved. Do not
-          optimize your method based on the test set performance!
-    \item Write a 5-10 line paragraph describing the main takeaway of your project.
-  \end{itemize}
+%   \begin{itemize}
+%     \item Finally, describe the test-set performance you achieved. Do not
+%           optimize your method based on the test set performance!
+%     \item Write a 5-10 line paragraph describing the main takeaway of your project.
+%   \end{itemize}
 
-}
+% }
 
 \begin{center}
   \begin{table}[!h]
@@ -238,19 +237,15 @@ The logistic regression model is a good starting point for binary classification
       \begin{tabular}{l|c|c|c|c|c}
         Model               & Train Dataset Score & Test Dataset Score \\\hline
         Logistic Regression & $0.5888$            & $0.5625$           \\\hline
-        Neural Network      & $0.5873$                    & $0.5595$                  \\
+        Neural Network      & $0.5873$            & $0.5595$           \\
       \end{tabular}
     }
 
   \end{table}
 \end{center}
 In this project, we explored the performance of two machine learning models—Logistic Regression and a Neural Network—on a highly imbalanced transaction dataset aimed at detecting fraudulent transactions.
-Both models demonstrated high accuracy and excellent ROC-AUC scores, with Logistic Regression achieving a ROC-AUC of 0.9486 and the Neural Network achieving a ROC-AUC of 0.9362. Despite the imbalanced nature of the dataset,
-the oversampling technique significantly improved model performance by generating synthetic samples for the minority class. Although the Logistic Regression model was simpler and faster to train, the Neural Network's capacity to
-learn complex patterns suggests potential for further optimization. The primary takeaway is that while simpler models can yield robust performance with appropriate preprocessing, advanced models like Neural Networks offer room for improvement,
-especially with fine-tuning and additional techniques to handle data imbalance.
+Both models have very simular results, with the new data the logistic regression is marginally better. 
+The logistic regression model is a good starting point for binary classification tasks, 
+while the neural network model is a more advanced model that could achieve better results with the right hyperparameters.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 \end{document}

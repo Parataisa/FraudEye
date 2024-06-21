@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.2)  21 JUN 2024 12:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.6.2)  21 JUN 2024 13:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -591,58 +591,39 @@ Underfull \hbox (badness 2165) in paragraph at lines 83--85
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 161.
+(Font)              <8> on input line 159.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 161.
+(Font)              <6> on input line 159.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 161.
+(Font)              <5> on input line 159.
 <images/confusion_matrix.png, id=66, 462.528pt x 346.896pt>
 File: images/confusion_matrix.png Graphic file (type png)
 <use images/confusion_matrix.png>
-Package pdftex.def Info: images/confusion_matrix.png  used on input line 170.
-(pdftex.def)             Requested size: 202.3529pt x 151.76662pt.
-[1{C:/Users/fplun/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
+Package pdftex.def Info: images/confusion_matrix.png  used on input line 168.
+(pdftex.def)             Requested size: 177.06458pt x 132.80109pt.
+
+Underfull \vbox (badness 1221) has occurred while \output is active []
+
+ [1{C:/Users/fplun/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
 ]
 <images/roc_curve.png, id=79, 462.528pt x 346.896pt>
 File: images/roc_curve.png Graphic file (type png)
 <use images/roc_curve.png>
-Package pdftex.def Info: images/roc_curve.png  used on input line 178.
+Package pdftex.def Info: images/roc_curve.png  used on input line 176.
 (pdftex.def)             Requested size: 177.06458pt x 132.80109pt.
-<images/ml.png, id=81, 722.7pt x 578.16pt>
-File: images/ml.png Graphic file (type png)
-<use images/ml.png>
-Package pdftex.def Info: images/ml.png  used on input line 191.
-(pdftex.def)             Requested size: 177.06458pt x 141.64603pt.
-<images/ml_confusion.png, id=82, 462.528pt x 346.896pt>
+<images/ml_confusion.png, id=81, 462.528pt x 346.896pt>
 File: images/ml_confusion.png Graphic file (type png)
 <use images/ml_confusion.png>
-Package pdftex.def Info: images/ml_confusion.png  used on input line 197.
+Package pdftex.def Info: images/ml_confusion.png  used on input line 188.
 (pdftex.def)             Requested size: 177.06458pt x 132.80109pt.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 228.
- [2
-pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.253 
-      
-pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.253 
-      
-pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.253 
-      
-pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.253 
-       <./images/confusion_matrix.png> <./images/roc_curve.png> <./images/ml.png> <./images/ml_confusion.png>]
+<images/ml.png, id=83, 722.7pt x 578.16pt>
+File: images/ml.png Graphic file (type png)
+<use images/ml.png>
+Package pdftex.def Info: images/ml.png  used on input line 195.
+(pdftex.def)             Requested size: 177.06458pt x 141.64603pt.
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -654,9 +635,27 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[3
-
-] (template.aux)
+[2
+pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.251 \end{document}
+                    
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.251 \end{document}
+                    
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.251 \end{document}
+                    
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.251 \end{document}
+                     <./images/confusion_matrix.png> <./images/roc_curve.png> <./images/ml_confusion.png> <./images/ml.png>] (template.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-05-08>
@@ -665,17 +664,17 @@ Package rerunfilecheck Info: File `template.out' has not changed.
 (rerunfilecheck)             Checksum: 68E64CB3320CACB9873F8E25F5CF94CF;1964.
  ) 
 Here is how much of TeX's memory you used:
- 19801 strings out of 474313
- 382517 string characters out of 5739307
- 1952907 words of memory out of 5000000
- 41946 multiletter control sequences out of 15000+600000
+ 19797 strings out of 474313
+ 382439 string characters out of 5739307
+ 1950907 words of memory out of 5000000
+ 41943 multiletter control sequences out of 15000+600000
  587114 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  101i,10n,107p,527b,462s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on template.pdf (3 pages, 225163 bytes).
+<C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/fplun/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on template.pdf (2 pages, 215303 bytes).
 PDF statistics:
- 133 PDF objects out of 1000 (max. 8388607)
- 23 named destinations out of 1000 (max. 500000)
+ 125 PDF objects out of 1000 (max. 8388607)
+ 22 named destinations out of 1000 (max. 500000)
  153 words of extra memory for PDF output out of 10000 (max. 10000000)
 
