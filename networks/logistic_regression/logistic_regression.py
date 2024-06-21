@@ -25,12 +25,12 @@ sys.path.append(
 )
 
 from data.get_data import get_data
-
+from dataHandler import DataHandler
 
 def train_and_evaluate():
     # Load the data
     X_train, Y_train = get_data()
-
+    print(X_train)
     # Split the data into training and testing sets
     X_train_data, X_test, Y_train_data, Y_test = train_test_split(
         X_train, Y_train, test_size=0.2, shuffle=True, stratify=Y_train, random_state=42
@@ -41,11 +41,15 @@ def train_and_evaluate():
     X_train_fit = scaler.fit_transform(X_train_data)
     X_test = scaler.transform(X_test)
 
+
+    X_train_resampled, Y_train_resampled = DataHandler.oversample_data(X_train_fit, Y_train_data, fraud_percentage=0.15)
+    print(X_train_resampled)
+    
     # Initialize the Logistic Regression model
-    model = LogisticRegression(random_state=42, max_iter=1000)
+    model = LogisticRegression(random_state=42)
 
     # Train the model on the training data
-    model.fit(X_train_fit, Y_train_data)
+    model.fit(X_train_resampled, Y_train_resampled)
 
     # Make predictions on the test set
     y_pred = model.predict(X_test)
