@@ -21,21 +21,31 @@ def predict(model, data, device, batch_size=32, THRESHOLD=0.5):
     predictions = all_outputs > THRESHOLD
     return predictions
 
-def evaluate(model, test_loader, device):
+def evaluate(model, data_loader, device):
     model.eval()
-    X_test = []
-    Y_test = []
+    true_labels = []
+    predicted_labels = []
     with torch.no_grad():
-        for inputs, labels in test_loader:
-            X_test.append(inputs.cpu().numpy())
-            Y_test.append(labels.cpu().numpy())
+        for inputs, labels in data_loader:
+            inputs = inputs.float().to(device)
+            labels = labels.float().to(device).unsqueeze(1)
+            outputs = model(inputs)
+            predictions = torch.round(torch.sigmoid(outputs))
+            true_labels.extend(labels.cpu().numpy().tolist())
+            predicted_labels.extend(predictions.cpu().numpy().tolist())
 
-    X_test = np.concatenate(X_test)
-    Y_test = np.concatenate(Y_test)
-    y_pred = predict(model, X_test, device)
-    metrics = compute_metrics(Y_test, y_pred)
-    
+    # Calculate metrics
+    metrics = {
+        'true_labels': true_labels,
+        'predicted_labels': predicted_labels,
+        'accuracy': accuracy_score(true_labels, predicted_labels),
+        'precision': precision_score(true_labels, predicted_labels, average='weighted'),
+        'recall': recall_score(true_labels, predicted_labels, average='weighted'),
+        'f1': f1_score(true_labels, predicted_labels, average='weighted'),
+        'roc_auc': roc_auc_score(true_labels, predicted_labels, average='weighted')
+    }
     return metrics
+
 
 def compute_metrics(y_true, y_pred):
     accuracy = accuracy_score(y_true, y_pred)

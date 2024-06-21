@@ -105,14 +105,34 @@ Due to the imbalanced nature of the dataset, we employed an oversampling techniq
 oversampling function that generates synthetic samples for the minority class (fraudulent transactions) based on the k-nearest
 neighbors algorithm. This approach involves generating new fraudulent samples by interpolating between existing fraudulent
 samples and their nearest neighbors.
-\subsubsection{Logistic Regression}
 
-\subsubsection{Neural Network}
+\subsection{Logistic Regression}
+Logistic regression is one of the most straightforward classification algorithms, making it a suitable initial approach for binary classification tasks.
+This model estimates the probability that a given input belongs to a particular class using a logistic function.
+
+\subsubsection{Hyperparameters}
+We use completely standard hyperparameters without any fine tuning.
+We tried some different solvers and maximumt iterations but the outcome didn't change much. >
+The hyperparameters we used are:
+\begin{itemize}
+  \item Solver: lbfgs
+  \item Max iterations: 100
+\end{itemize}
+The biggest impact on the performance was the oversampling.
+
+\subsubsection{Model Description}
+Logistic regression operates by applying the logistic function to a linear combination of input features, yielding a probability score between 0 and 1.
+This probability is then used to classify the input into one of the two classes. Given its simplicity and ease of implementation, logistic regression serves
+as an effective starting point for classification problems.
+
+
+
+\subsection{Neural Network}
 We used a neural network with 3 hidden layers and 1 output layer. The input layer has 30 neurons, and all hidden layers have 64 neurons. We used the ReLU activation function for all hidden layers and the sigmoid activation function for the output layer. We used the Adam optimizer and binary cross-entropy as the loss function. Furthermore, we trained the
 model for 40 epochs with a batch size of 64. Because we implemented an early stopping mechanism, the model stopped at most after 24 epochs. We used a dropout layer with a dropout rate of 0.4 to prevent overfitting. For the learning rate, we started with 0.001 and decreased it by a factor of 0.1 if the validation loss did not decrease for 5 epochs.
 For the early stopping mechanism, we used a patience value of 10 epochs. We used the roc-auc score as the evaluation metric for early stopping.
 
-\subsubsection{Choice}
+\subsection{Choice}
 We chose the neural network over logistic regression because the neural network showed better results. The neural network was able to learn the underlying patterns in the data better than logistic regression.
 See the \hyperref[sec:results]{Results'} section for more details.
 
