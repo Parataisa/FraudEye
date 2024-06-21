@@ -127,8 +127,6 @@ def train_model():
     }
 
     trainer.save_model('./data/models/neural_network_model', metrics, params)
-    
-    plot_metrics(metrics, None, None)
 
 def load_and_evaluate_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
